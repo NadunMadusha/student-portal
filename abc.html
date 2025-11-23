@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Portal Login</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f2f2f2; display:flex; justify-content:center; align-items:center; height:100vh; }
+    .card { background:white; padding:30px; border-radius:15px; width:320px; box-shadow:0 0 15px rgba(0,0,0,0.1);} 
+    input, button { width:100%; padding:10px; margin-top:10px; border-radius:8px; border:1px solid #ccc; }
+    button { background:#4CAF50; color:white; border:none; cursor:pointer; }
+    button:hover { background:#45A049; }
+    #dashboard { display:none; }
+  </style>
+</head>
+<body>
+
+<div class="card" id="loginBox">
+  <h2 style="text-align:center;">Login</h2>
+  <input type="text" id="username" placeholder="Username" />
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="login()">Sign In</button>
+</div>
+
+<div class="card" id="dashboard">
+  <h2 id="roleText"></h2>
+  <div id="content"></div>
+  <button onclick="logout()" style="background:#d9534f;">Logout</button>
+</div>
+
+<script>
+  const admin = { username: "admin", password: "admin123" };
+  const students = [
+    { username: "student1", password: "pass1" },
+    { username: "student2", password: "pass2" }
+  ];
+
+  function login() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    if (user === admin.username && pass === admin.password) {
+      loadDashboard("Admin", "<p>Approve videos and manage student accounts here.</p>");
+      return;
+    }
+
+    const found = students.find(s => s.username === user && s.password === pass);
+
+    if (found) {
+      loadDashboard("Student", "<p>Welcome! Watch approved educational videos here.</p>");
+      return;
+    }
+
+    alert("Invalid login details");
+  }
+
+  function loadDashboard(role, content) {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+    document.getElementById("roleText").innerText = role + " Dashboard";
+    document.getElementById("content").innerHTML = content;
+  }
+
+  function logout() {
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("loginBox").style.display = "block";
+  }
+</script>
+
+</body>
+</html>
